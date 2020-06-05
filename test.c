@@ -1,13 +1,15 @@
 #include "types.h"
 #include "stat.h"
 #include "user.h"
+/*zahra:test file,first fork to Create a process
+the long for is beacuse stay in running state*/
 
 int main(void)
 {
 	int _pid = fork();
 	if (_pid < 0)
   {
-        // fork failed; exit
+        /* zahra:fork failed; exit*/
         // fprintf(stderr, "fork failed\n");
         exit();
     }
@@ -53,7 +55,8 @@ int main(void)
         }
 		}
     }
-  
+  //wait to child process
+  //wait();
     exit();
     return 0;
 

@@ -89,7 +89,7 @@ sys_uptime(void)
   release(&tickslock);
   return xticks;
 }
-
+/*zahra:syscall function retun*/
 int
 sys_apm(void)
 {

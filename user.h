@@ -23,7 +23,7 @@ int getpid(void);
 char* sbrk(int);
 int sleep(int);
 int uptime(void);
-int apm(int,void*);
+int apm(int,void*); /*zahra:define apm function*/
 
 // ulib.c
 int stat(const char*, struct stat*);

@@ -553,6 +553,8 @@ void sort(struct proc_info *process,int process_count)
 	}
 }
 
+/*zahra:the system call function to get and sort process*/
+
 int
 apm(void)
 {

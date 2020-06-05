@@ -20,4 +20,4 @@
 #define SYS_link   19
 #define SYS_mkdir  20
 #define SYS_close  21
-#define SYS_apm    22
+#define SYS_apm    22 /*zahra:the 22(index) syscall*/
