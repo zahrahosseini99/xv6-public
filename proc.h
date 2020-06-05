@@ -51,9 +51,9 @@ struct proc {
   char name[16];               // Process name (debugging)
 };
 
+
 // Process memory is laid out contiguously, low addresses first:
 //   text
 //   original data and bss
 //   fixed-size stack
 //   expandable heap
-int getpinfo(void); /*define getpinfo function*/

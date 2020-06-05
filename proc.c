@@ -532,9 +532,48 @@ procdump(void)
     cprintf("\n");
   }
 }
-/* write body of syscall function*/
-int
-getpinfo(void)
+
+void swap(struct proc_info *p1,struct proc_info *p2)
 {
-  
+	struct proc_info temp = *p1;
+	*p1 = *p2;
+	*p2 = temp;
+}
+void sort(struct proc_info *process,int process_count)
+{
+	for(int i = 0 ;i<process_count;i++)
+	{
+		for (int j = 0; j < process_count-1; j++)
+		{
+			if(process[j].memsize>process[j+1].memsize)
+			{
+				swap(&process[j],&process[j+1]);
+			}
+		}
+	}
+}
+
+int
+apm(void)
+{
+ acquire(&ptable.lock);
+    struct proc *p;
+    int i =0;
+    struct proc_info *proccess ;
+    int max;
+    argint(0, &max);
+    argptr(1, (char **)&proccess, max*sizeof(struct proc_info));
+for ( i = 0,p=ptable.proc;p< &ptable.proc[NPROC]; p++)
+ {
+   if(p->state == UNUSED) continue;
+    if(p->state == RUNNABLE || p->state == RUNNING)
+    {
+        proccess[i].pid = p->pid;
+        proccess[i].memsize = p->sz;
+        i+=1;
+      }
+  }
+  sort(proccess,i);
+   release(&ptable.lock);
+  return i;
 }

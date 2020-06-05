@@ -91,7 +91,7 @@ sys_uptime(void)
 }
 
 int
-SYS_getpinfo(void)
+sys_apm(void)
 {
-return getpinfo();
+  return apm();
 }
