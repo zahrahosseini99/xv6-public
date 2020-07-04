@@ -320,7 +320,7 @@ wait(void)
 }
 
 int
-waitx(void)
+waitx(int *wtime , int *rtime)
 {
   struct proc *p;
   int havekids, pid;

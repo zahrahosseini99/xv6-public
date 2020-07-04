@@ -7,17 +7,25 @@ int main (int argc,char *argv[])
 {
 
 	int pid;
-	int status, a, b;
+int a=0;
+int b=0;
+int fuck=0;
 	pid = fork();
 	if (pid == 0)
   	{
-  		exec(argv[1], argv);
-    	printf(1, "exec %s failed\n", argv[1]);
+      sleep(40);
+  	for(int i=0;i<500;i++)
+    {
+
+      printf(1,"%s\n","fuck off");
+    }
+    exit();
     }
   	else
  	{
-    	status = waitx(&a, &b);
+    	exit();
  	}
- 	printf(1, "Wait Time = %d\n Run Time = %d with Status %d \n", a, b, status);
+  fuck=waitx(&a,&b);
+ 	printf(1, "Wait Time = %d\n Run Time = %d with fuck %d \n", a, b, fuck);
  	exit();
 }

@@ -58,7 +58,7 @@ trap(struct trapframe *tf)
             {
               if(myproc()->state == RUNNING)
                 myproc()->rtime++;//running time
-              else if(proc->state == SLEEPING)
+              else if(myproc()->state == SLEEPING)
                 myproc()->iotime++;//sleeping time
             }
 
