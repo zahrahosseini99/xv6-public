@@ -8,6 +8,14 @@
 #include "proc.h"
 
 int
+sys_waitx(void)
+{
+  int *wtime;
+  int *rtime;
+  //write your code
+}
+
+int
 sys_fork(void)
 {
   return fork();
