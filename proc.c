@@ -88,7 +88,10 @@ allocproc(void)
 found:
   p->state = EMBRYO;
   p->pid = nextpid++;
-
+  p->stime = ticks;         // start time
+  p->etime = 0;             // end time
+  p->rtime = 0;             // run time
+  p->iotime = 0;            // I/O time
   release(&ptable.lock);
 
   // Allocate kernel stack.
@@ -112,10 +115,7 @@ found:
   memset(p->context, 0, sizeof *p->context);
   p->context->eip = (uint)forkret;
 
-   p->stime = ticks;         // start time
-   p->etime = 0;             // end time
-   p->rtime = 0;             // run time
-   p->iotime = 0;            // I/O time
+
 
   return p;
 }
@@ -269,7 +269,7 @@ exit(void)
   // Jump into the scheduler, never to return.
   curproc->state = ZOMBIE;
 
-  proc->etime = ticks; 
+  curproc->etime = ticks;
 
   sched();
   panic("zombie exit");
