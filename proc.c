@@ -88,10 +88,7 @@ allocproc(void)
 found:
   p->state = EMBRYO;
   p->pid = nextpid++;
-  p->stime = ticks;         // start time
-  p->etime = 0;             // end time
-  p->rtime = 0;             // run time
-  p->iotime = 0;            // I/O time
+
   release(&ptable.lock);
 
   // Allocate kernel stack.
@@ -113,9 +110,13 @@ found:
   sp -= sizeof *p->context;
   p->context = (struct context*)sp;
   memset(p->context, 0, sizeof *p->context);
+
+  p->stime = ticks;         // start time
+  p->etime = 0;             // end time
+  p->rtime = 0;             // run time
+  p->iotime = 0;            // I/O time
+
   p->context->eip = (uint)forkret;
-
-
 
   return p;
 }
@@ -268,12 +269,11 @@ exit(void)
 
   // Jump into the scheduler, never to return.
   curproc->state = ZOMBIE;
-
   curproc->etime = ticks;
-
   sched();
   panic("zombie exit");
 }
+
 
 // Wait for a child process to exit and return its pid.
 // Return -1 if this process has no children.
@@ -335,12 +335,7 @@ waitx(int *wtime , int *rtime)
         continue;
       havekids = 1;
       if(p->state == ZOMBIE){
-
-
-        *wtime = p->etime - p->stime - p->rtime - p->iotime;
-        *rtime = p->rtime;
-
-        // Found one.
+      // Found one.
         pid = p->pid;
         kfree(p->kstack);
         p->kstack = 0;
@@ -350,6 +345,12 @@ waitx(int *wtime , int *rtime)
         p->name[0] = 0;
         p->killed = 0;
         p->state = UNUSED;
+        *wtime = p->etime - p->stime - p->rtime - p->iotime;
+        *rtime = p->rtime;
+        cprintf("waitx rtime: %d \n",p->rtime);
+          cprintf("waitx stime: %d \n",p->stime);
+            cprintf("waitx etime: %d \n",p->etime);
+              cprintf("waitx iotime: %d \n",p->iotime);
         release(&ptable.lock);
         return pid;
       }

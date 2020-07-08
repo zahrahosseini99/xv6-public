@@ -9,7 +9,7 @@ int main (int argc,char *argv[])
 	int pid;
 int a=0;
 int b=0;
-int fuck=0;
+//int fuck=0;
 	pid = fork();
 	if (pid == 0)
   	{
@@ -21,11 +21,12 @@ int fuck=0;
     }
     exit();
     }
-  	else
+  	else if(pid<0)
  	{
     	exit();
  	}
-  fuck=waitx(&a,&b);
- 	printf(1, "Wait Time = %d\n Run Time = %d with fuck %d \n", a, b, fuck);
+int  fuck=waitx(&a,&b);
+int waitfuck=wait();
+ 	printf(1, "Wait Time = %d\n Run Time = %d with fuck %d \n waitingFuck time= %d\n pid= %d\n", a, b, fuck,waitfuck,pid);
  	exit();
 }
