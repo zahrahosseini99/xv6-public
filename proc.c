@@ -642,7 +642,11 @@ int waitx(int *wtime,int *rtime)
 }
 
 int set_priority(int prio){
-  acquire(&ptable.lock); 
+  if(prio<0 || prio>100){
+    cprintf("**********invalid priority*************\n");
+    return  myproc()->priority;
+  }
+  acquire(&ptable.lock);
   int pre_prio = myproc()->priority;
   myproc()->priority = prio;
   release(&ptable.lock);
