@@ -27,6 +27,6 @@ int b=0;
  	}
 int  fuck=waitx(&a,&b);
 int waitfuck=wait();
- 	printf(1, "Wait Time = %d\n Run Time = %d , a, b, fuck,waitfuck,pid);
+ 	printf(1, "Wait Time = %d\n Run Time = %d , a, b);
  	exit();
 }
