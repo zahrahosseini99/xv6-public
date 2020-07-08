@@ -392,7 +392,7 @@ struct proc *newP=ptable.proc;
     for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
       if(p->state != RUNNABLE)
       {
-        if(newP->priority>=p-<priority)
+        if(newP->priority>=p->priority)
         {
           newP=p;
         }

@@ -60,6 +60,7 @@ trap(struct trapframe *tf)
                 myproc()->rtime++;//running time
               else if(myproc()->state != RUNNING)
                 myproc()->iotime++;//sleeping time
+                cprintf("sleeping\n");
             }
 
     }
