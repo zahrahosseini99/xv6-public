@@ -25,8 +25,8 @@ int b=0;
  	{
     	exit();
  	}
-int  fuck=waitx(&a,&b);
-int waitfuck=wait();
- 	printf(1, "Wait Time = %d\n Run Time = %d , a, b);
+int  rv=waitx(&a,&b);
+
+ 	printf(1, "Wait Time = %d\n Run Time = %d\n return value=%d \n" , a, b,rv);
  	exit();
 }
