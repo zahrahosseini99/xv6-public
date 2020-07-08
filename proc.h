@@ -52,7 +52,8 @@ struct proc {
   int stime;
   int etime;
   int iotime;
-  int rtime;               // Process name (debugging)
+  int rtime;
+  int priority;               // Process name (debugging)
 };
 
 // Process memory is laid out contiguously, low addresses first:

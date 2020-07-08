@@ -23,6 +23,25 @@ return waitx(wtime, rtime);
 }
 
 int
+sys_setpriority(void)
+{
+  int p,old;
+  old=proc->priority;
+  if(argint(0,&p)<0)
+       return -1;
+  if(p>=0 && p<101)
+  {
+    proc->priority=p;
+  }
+  else{
+    return -1
+  }
+  if(p>old)
+  yield();
+  return old;
+}
+
+int
 sys_fork(void)
 {
   return fork();

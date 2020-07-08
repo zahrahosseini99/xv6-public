@@ -115,7 +115,7 @@ found:
   p->etime = 0;             // end time
   p->rtime = 0;             // run time
   p->iotime = 0;            // I/O time
-
+  p->priority=60;           //set the default to 60
   p->context->eip = (uint)forkret;
 
   return p;
@@ -386,27 +386,41 @@ scheduler(void)
   for(;;){
     // Enable interrupts on this processor.
     sti();
-
+struct proc *newP=ptable.proc;
     // Loop over process table looking for process to run.
     acquire(&ptable.lock);
     for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
       if(p->state != RUNNABLE)
-        continue;
-
+      {
+        if(newP->priority>=p-<priority)
+        {
+          newP=p;
+        }
+      }
+  }    //  continue;
+if(newP->state==RUNNABLE)
+{
+      c->proc = newP;
+      switchuvm(newP);
+      newP->state = RUNNING;
+      swtch(&(c->scheduler), newP->context);
+      switchkvm();
+      c->proc = 0;
+}
       // Switch to chosen process.  It is the process's job
       // to release ptable.lock and then reacquire it
       // before jumping back to us.
-      c->proc = p;
-      switchuvm(p);
-      p->state = RUNNING;
 
-      swtch(&(c->scheduler), p->context);
-      switchkvm();
+
+
+
+
+
 
       // Process is done running for now.
       // It should have changed its p->state before coming back.
-      c->proc = 0;
-    }
+
+
     release(&ptable.lock);
 
   }
