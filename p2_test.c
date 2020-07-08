@@ -6,18 +6,17 @@
 
 int main(void)
 {
-	int rc = fork();
-	if(rc == 0)
+	int _pid = fork();
+	if( _pid == 0)
 	{
-		int rc1 = fork();
-		if(rc1 == 0)
+		int  _pid1 = fork();
+		if( _pid1 == 0)
 		{
-			int rc2 = fork();
-			if(rc2 == 0)
+			int  _pid2 = fork();
+			if( _pid2 == 0)
 			{
-				set_priority(38);
+				set_priority(30);
 				sleep(100);
-				printf(1,"lanat behet khodaE\n");
 				int temp = 0;
 				while(temp<1000000000)
 					temp++;
@@ -25,9 +24,9 @@ int main(void)
 			}
 			else
 			{
-				set_priority(48);
+				set_priority(40);
 
-			sleep(90);
+		   	sleep(90);
 
 				int temp = 0;
 				while(temp<1000000000)
@@ -38,11 +37,13 @@ int main(void)
 			}
 		}
 		else{
-			set_priority(78);
-			sleep(90);
+			set_priority(70);
+			sleep(100);
 			int temp = 0;
-			while(temp<1000000000)
-				temp++;
+			for (int i = 0; i < 1000000000; i++)
+	    {
+	     temp++;
+	    }
 			wait();
 			exit();
 		}
@@ -50,12 +51,12 @@ int main(void)
 	else
 	{
 		sleep(100);
-		printf(1,"waiting for my childs\n");
+		printf(1,"waiting for child of this proc \n");
 		ps();
 		wait();
-	exit();
-		
+	  exit();
+
 	}
-	
+
 	return 0;
 }

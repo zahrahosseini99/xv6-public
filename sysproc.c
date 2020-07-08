@@ -91,6 +91,17 @@ sys_uptime(void)
 }
 
 int
+sys_apm(void)
+{
+  struct proc_info **p;
+  int *n;
+  if(argptr(1, (void*)&n, sizeof(*n))<0 || argptr(0, (void*)&p, sizeof(*p))<0)
+    return -1;
+  apm(p,n);
+  return 0;
+}
+
+int
 sys_waitx(void)
 {
   int *wtime;
@@ -106,7 +117,6 @@ sys_set_priority(void)
   int prio;
   if(argint(0, &prio) < 0)
     return -1;
-  // cprintf("arrreee %d \n",prio);
   return set_priority(prio);
 }
 void

@@ -548,7 +548,48 @@ procdump(void)
     cprintf("\n");
   }
 }
-
+void swap(struct proc_info *p1,struct proc_info *p2)
+{
+	struct proc_info temp = *p1;
+	*p1 = *p2;
+	*p2 = temp;
+}
+void sort(struct proc_info *process,int process_count)
+{
+	for(int i = 0 ;i<process_count;i++)
+	{
+		for (int j = 0; j < process_count-1; j++)
+		{
+			if(process[j].memsize>process[j+1].memsize)
+			{
+				swap(&process[j],&process[j+1]);
+			}
+		}
+	}
+}
+void apm(struct proc_info ** pk,int *count)
+{
+  acquire(&ptable.lock);
+    struct proc *p;
+    int i =0;
+    struct proc_info *proccess ;
+    int max;
+    argint(0, &max);
+    argptr(1, (char **)&proccess, max*sizeof(struct proc_info));
+for ( i = 0,p=ptable.proc;p< &ptable.proc[NPROC]; p++)
+ {
+   if(p->state == UNUSED) continue;
+    if(p->state == RUNNABLE || p->state == RUNNING)
+    {
+        proccess[i].pid = p->pid;
+        proccess[i].memsize = p->sz;
+        i+=1;
+      }
+  }
+  sort(proccess,i);
+   release(&ptable.lock);
+  return ;
+}
 
 int waitx(int *wtime,int *rtime)
 {
@@ -578,11 +619,12 @@ int waitx(int *wtime,int *rtime)
         *wtime = p->etime - p->stime - p->rtime;
         p->iotime = *wtime;
         *rtime = p->rtime;
-        cprintf("aqa namusan what the fuck rtime: %d \n",p->rtime);
-        cprintf("aqa namusan what the fuck stime: %d \n",p->stime);
-        cprintf("aqa namusan what the fuck etime: %d \n",p->etime);
-        cprintf("aqa namusan what the fuck iotime: %d \n",p->iotime);
-        // *rtime = 55;
+        cprintf("*******************************************************\n");
+        cprintf("rtime: %d \n",p->rtime);
+        cprintf("stime: %d \n",p->stime);
+        cprintf("etime: %d \n",p->etime);
+        cprintf("iotime: %d \n",p->iotime);
+        cprintf("*******************************************************\n");
         release(&ptable.lock);
         return pid;
       }
@@ -600,17 +642,15 @@ int waitx(int *wtime,int *rtime)
 }
 
 int set_priority(int prio){
-  acquire(&ptable.lock);  //DOC: yieldlock
-  int prev_prio = myproc()->priority;
+  acquire(&ptable.lock); 
+  int pre_prio = myproc()->priority;
   myproc()->priority = prio;
   release(&ptable.lock);
-  if(prio<prev_prio)
+  if(prio<pre_prio)
   {
     yield();
   }
-  // cprintf("this the prev priority %d for pid %d\n",prev_prio,myproc()->pid);
-  // cprintf("this the new priority %d for pid %d\n",myproc()->priority,myproc()->pid);
-  return prev_prio;
+  return pre_prio;
 }
 
 void ps()

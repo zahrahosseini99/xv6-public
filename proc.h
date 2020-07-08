@@ -56,6 +56,12 @@ struct proc {
   int priority;
 };
 
+ struct proc_info
+ {
+    int pid;
+    uint memsize;
+  };
+
 // Process memory is laid out contiguously, low addresses first:
 //   text
 //   original data and bss
