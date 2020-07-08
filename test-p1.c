@@ -17,7 +17,7 @@ int b=0;
   	for(int i=0;i<500;i++)
     {
 
-      printf(1,"%s\n","fuck off");
+      printf(1,"%s\n","RUNNING");
     }
     exit();
     }
@@ -27,6 +27,6 @@ int b=0;
  	}
 int  fuck=waitx(&a,&b);
 int waitfuck=wait();
- 	printf(1, "Wait Time = %d\n Run Time = %d with fuck %d \n waitingFuck time= %d\n pid= %d\n", a, b, fuck,waitfuck,pid);
+ 	printf(1, "Wait Time = %d\n Run Time = %d , a, b, fuck,waitfuck,pid);
  	exit();
 }
