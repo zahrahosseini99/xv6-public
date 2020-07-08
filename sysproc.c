@@ -7,30 +7,6 @@
 #include "mmu.h"
 #include "proc.h"
 
-int
-sys_waitx(void)
-{
-  int *wtime;
-  int *rtime;
-
-  if(argptr(0, (char**)&wtime, sizeof(*wtime)) < 0)
-     return -1;
-
-   if(argptr(1, (char**)&rtime, sizeof(*rtime)) < 0)
-     return -1;
-
-return waitx(wtime, rtime);
-}
-
-int
-sys_setpriority(void)
-{
-int priority;
-if(argint(0,&priority))
- return -1;
-if(priority>=0 && priority<101)
-return setpriority(priority);
-}
 
 int
 sys_fork(void)
@@ -113,4 +89,29 @@ sys_uptime(void)
   xticks = ticks;
   release(&tickslock);
   return xticks;
+}
+
+int
+sys_waitx(void)
+{
+  int *wtime;
+  int *rtime;
+
+  if(argptr(0, (char**)&wtime, sizeof(*wtime)) < 0)
+     return -1;
+
+   if(argptr(1, (char**)&rtime, sizeof(*rtime)) < 0)
+     return -1;
+
+return waitx(wtime, rtime);
+}
+
+int
+sys_setpri(void)
+{
+  int prio;
+  if(argint(0, &prio) < 0)
+    return -1;
+  // cprintf("arrreee %d \n",prio);
+  return setpri(prio);
 }
