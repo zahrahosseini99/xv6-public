@@ -7,7 +7,6 @@
 #include "mmu.h"
 #include "proc.h"
 
-
 int
 sys_fork(void)
 {
@@ -96,22 +95,22 @@ sys_waitx(void)
 {
   int *wtime;
   int *rtime;
-
-  if(argptr(0, (char**)&wtime, sizeof(*wtime)) < 0)
-     return -1;
-
-   if(argptr(1, (char**)&rtime, sizeof(*rtime)) < 0)
-     return -1;
-
-return waitx(wtime, rtime);
+  if(argptr(1, (void*)&rtime, sizeof(*rtime))<0 || argptr(0, (void*)&wtime, sizeof(*wtime))<0)
+    return -1;
+  return waitx(wtime,rtime);
 }
 
 int
-sys_setpri(void)
+sys_set_priority(void)
 {
   int prio;
   if(argint(0, &prio) < 0)
     return -1;
   // cprintf("arrreee %d \n",prio);
-  return setpri(prio);
+  return set_priority(prio);
+}
+void
+sys_ps(void)
+{
+  return ps();
 }

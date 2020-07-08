@@ -15,7 +15,7 @@ int main(void)
 			int rc2 = fork();
 			if(rc2 == 0)
 			{
-				setpri(38);
+				set_priority(38);
 				sleep(100);
 				printf(1,"lanat behet khodaE\n");
 				int temp = 0;
@@ -25,7 +25,7 @@ int main(void)
 			}
 			else
 			{
-				setpri(48);
+				set_priority(48);
 
 			sleep(90);
 
@@ -38,7 +38,7 @@ int main(void)
 			}
 		}
 		else{
-			setpri(78);
+			set_priority(78);
 			sleep(90);
 			int temp = 0;
 			while(temp<1000000000)
@@ -54,8 +54,8 @@ int main(void)
 		ps();
 		wait();
 	exit();
-
+		
 	}
-
+	
 	return 0;
 }

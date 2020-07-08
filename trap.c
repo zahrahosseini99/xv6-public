@@ -53,18 +53,19 @@ trap(struct trapframe *tf)
       ticks++;
       wakeup(&ticks);
       release(&tickslock);
-
       if(myproc())
-            {
-              if(myproc()->state == RUNNING)
-                myproc()->rtime++;//running time
-              else if(myproc()->state != RUNNING){
-                myproc()->iotime++;//sleeping time
-                cprintf("sleeping\n");
-              }
-
-            }
-
+      {
+          // cprintf("fuck ticks %d \n",ticks);
+        if(myproc()->state == RUNNING){
+          myproc()->rtime++;
+          // cprintf("kiloo RUNN \n");
+        }
+        if(myproc()->state != RUNNING){
+          myproc()->iotime++;
+          cprintf("kiloo SLEEPING \n");
+          // cprintf("fuck iotime %d \n",myproc()->iotime);
+        }
+      }
     }
     lapiceoi();
     break;
