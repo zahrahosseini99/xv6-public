@@ -1,6 +1,6 @@
 struct stat;
 struct rtcdate;
-//phase2-bonus
+struct proc_info;
 // system calls
 int fork(void);
 int exit(void) __attribute__((noreturn));
@@ -23,6 +23,12 @@ int getpid(void);
 char* sbrk(int);
 int sleep(int);
 int uptime(void);
+int apm(struct proc_info **,int *);
+int waitx(int *wtime , int *rtime);
+int set_priority(int prio);
+int ps(void);
+
+
 
 // ulib.c
 int stat(const char*, struct stat*);

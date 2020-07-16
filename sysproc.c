@@ -89,3 +89,38 @@ sys_uptime(void)
   release(&tickslock);
   return xticks;
 }
+
+int
+sys_apm(void)
+{
+  struct proc_info **p;
+  int *n;
+  if(argptr(1, (void*)&n, sizeof(*n))<0 || argptr(0, (void*)&p, sizeof(*p))<0)
+    return -1;
+  apm(p,n);
+  return 0;
+}
+
+int
+sys_waitx(void)
+{
+  int *wtime;
+  int *rtime;
+  if(argptr(1, (void*)&rtime, sizeof(*rtime))<0 || argptr(0, (void*)&wtime, sizeof(*wtime))<0)
+    return -1;
+  return waitx(wtime,rtime);
+}
+
+int
+sys_set_priority(void)
+{
+  int prio;
+  if(argint(0, &prio) < 0)
+    return -1;
+  return set_priority(prio);
+}
+void
+sys_ps(void)
+{
+  return ps();
+}
