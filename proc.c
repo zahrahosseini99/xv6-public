@@ -328,6 +328,61 @@ wait(void)
 //  - swtch to start running that process
 //  - eventually that process transfers control
 //      via swtch back to the scheduler.
+void moveQueue(struct proc* temp2,int q1,int q2,int q3,int q_level)
+{
+  for(i=0;i<NPROC;i++)
+  {
+    switch (q_level)
+    {
+      case 1:
+        temp2=&ptable.proc[q1+i];
+        if(temp2->stat==RUNNABLE && temp2->Qlevel==q_level)
+        {
+          q1=q1+1+i;
+          return temp2;
+        }
+      case 2:
+          temp2=&ptable.proc[q2+i];
+          if(temp2->stat==RUNNABLE && temp2->Qlevel==q_level && temp2->stime==minTime)
+          {
+            q2=q2+1+i;
+            return temp2;
+          }
+      case 3:
+            temp2=&ptable.proc[q3+i];
+            if(temp2->stat==RUNNABLE && temp2->Qlevel==q_level)
+            {
+              q3=q3+1+i;
+              return temp2;
+            }
+    }
+  }
+}
+struct proc* findNextProc(int q1,int q2,int q3,int q_level)
+{
+  int temp;
+  struct proc* temp2;
+  struct proc* temp3;
+  //struct proc* q1;
+  int minTime=ticks;
+  //int minTime=10000000000/max_INIT;
+  for(temp3=ptable.proc;temp3<&ptable.proc[NPROC];q3++)
+  {
+if((temp3->stat==RUNNABLE) && (temp3.Qlevel==2) && (temp3->stime<minTime)){
+
+  minTime=temp3->stime;
+}
+moveQueue(temp2,q1,q2,q3,q_level);
+   if(q_level==3){
+                return 0;
+                  }
+  else{
+      q_level+=1;
+      moveQueue(temp2,q1,q2,q3,q_level);
+      }
+  }
+}
+
 void
 scheduler(void)
 {
@@ -340,26 +395,38 @@ scheduler(void)
     // Enable interrupts on this processor.
     sti();
 
-    struct proc *highP = ptable.proc;
+  //  struct proc *highP = ptable.proc;
     // Looking for runnable process
     acquire(&ptable.lock);
     for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
       if(p->state == RUNNABLE){
       // highP = p;
-        if ( highP->priority >= p->priority )
-          // cprintf("this is shit\n");   // larger value, lower priority
-          highP = p;
+      struct proc *readyProc=0;
+      int q_level=0;
+      int q1=0;
+      int q2=0;
+      int q3=0;
+      readyProc=findNextProc(q_level,q1,q2,q3);
+if(readyProc!=0){
+  p=readyProc;
+}
+else{
+  if(p->state!=RUNNABLE){
+    continue;
+  }
+}
+
         }
       }
 
-      if(highP->state == RUNNABLE)
+      if(p!= 0)
       {
 
-      c->proc = highP;
+      c->proc = p;
       // cprintf("this process with id %d and this is my priority %d \n",c->proc->pid,c->proc->priority);
-      switchuvm(highP);
-      highP->state = RUNNING;
-      swtch(&(c->scheduler), highP->context);
+      switchuvm(p);
+      p->state = RUNNING;
+      swtch(&(c->scheduler),p->context);
       switchkvm();
 
       // Process is done running for now.
@@ -687,7 +754,7 @@ void nice(int pr)
 {
 acquire(&ptable.lock);
 if(pr<3 && pr>=1){
-    myproc()->priority=pr;
+    myproc()->Qlevel=pr;
     release(&ptable.lock);
     return 0
 }
