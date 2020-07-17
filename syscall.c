@@ -107,6 +107,7 @@ extern int sys_apm(void);
 extern int sys_waitx(void);
 extern int sys_set_priority(void);
 extern int sys_ps(void);
+extern int sys_nice(void);
 
 
 static int (*syscalls[])(void) = {
@@ -135,6 +136,7 @@ static int (*syscalls[])(void) = {
 [SYS_waitx] sys_waitx,
 [SYS_set_priority] sys_set_priority,
 [SYS_ps] sys_ps,
+[SYS_nice] sys_nice,
 };
 
 void

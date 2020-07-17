@@ -115,6 +115,7 @@ found:
   p->iotime = 0;
   p->etime = 0;
   p->priority = 60;
+  p->Qlevel=3;
 
   p->context->eip = (uint)forkret;
 
@@ -681,4 +682,15 @@ void ps()
   release(&ptable.lock);
 
   return ;
+}
+void nice(int pr)
+{
+acquire(&ptable.lock);
+if(pr<3 && pr>=1){
+    myproc()->priority=pr;
+    release(&ptable.lock);
+    return 0
+}
+release(&ptable.lock);
+return -1;
 }

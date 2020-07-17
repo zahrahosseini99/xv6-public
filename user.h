@@ -27,7 +27,7 @@ int apm(struct proc_info **,int *);
 int waitx(int *wtime , int *rtime);
 int set_priority(int prio);
 int ps(void);
-
+int nice(int pr);
 
 
 // ulib.c

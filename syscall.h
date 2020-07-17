@@ -24,3 +24,4 @@
 #define SYS_waitx 23
 #define SYS_set_priority 24
 #define SYS_ps 25
+#define SYS_nice 26

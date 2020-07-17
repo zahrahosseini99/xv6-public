@@ -124,3 +124,11 @@ sys_ps(void)
 {
   return ps();
 }
+int
+sys_nice(void)
+{
+int pr;
+  if(argint(0,&pr)<0)
+      return -1;
+return nice(pr);
+}

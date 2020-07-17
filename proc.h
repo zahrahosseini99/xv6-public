@@ -54,6 +54,7 @@ struct proc {
   int iotime;
   int rtime;
   int priority;
+  int Qlevel;
 };
 
  struct proc_info

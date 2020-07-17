@@ -125,6 +125,7 @@ void			apm(struct proc_info **,int *);
 int				waitx(int *wtime , int *rtime);
 int 			set_priority(int prio);
 void			ps(void);
+int       nice(int pr);
 
 // swtch.S
 void            swtch(struct context**, struct context*);
